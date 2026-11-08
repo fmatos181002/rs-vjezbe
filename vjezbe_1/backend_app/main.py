@@ -11,6 +11,9 @@ DATA = Path(__file__).parent / "players.json"
 
 def load_players():
     return json.loads(DATA.read_text(encoding="utf-8"))
+@app.get("/")
+def root():
+    return {"service": "NBA top 10 service", "endpoints": ["/health", "/players", "/players/{id}", "/docs"]}
 
 @app.get("/health")
 def health():
