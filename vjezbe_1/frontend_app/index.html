@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NBA top 10 strijelaca</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>NBA top 10 strijelaca</h1>
+    <p>Sezona 2026-27, poeni po utakmici</p>
+  </header>
+  <main>
+    <p id="status">Učitavanje...</p>
+    <ul id="list" class="grid"></ul>
+  </main>
+
+  <script src="config.js"></script>
+  <script>
+    async function load() {
+      const status = document.getElementById("status");
+      const list = document.getElementById("list");
+      try {
+        const res = await fetch(`${API_URL}/players`);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const players = await res.json();
+        status.hidden = true;
+        list.innerHTML = players.map(p => `
+          <li>
+            <a class="card" href="player.html?id=${p.id}">
+              <span class="rank">${p.rank}</span>
+              <img class="photo" src="${esc(p.photo)}" alt="${esc(p.name)}"
+                   loading="lazy" onerror="this.style.visibility='hidden'">
+              <div class="info">
+                <strong>${esc(p.name)}</strong>
+                <span>${esc(p.team)}</span>
+              </div>
+              <div class="pts">${p.pts}<small>PPG</small></div>
+            </a>
+          </li>`).join("");
+      } catch (err) {
+        status.textContent = "Servis trenutno nije dostupan.";
+      }
+    }
+    load();
+  </script>
+</body>
+</html>
