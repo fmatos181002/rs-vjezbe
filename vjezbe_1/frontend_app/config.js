@@ -1,4 +1,4 @@
-const API_URL = "https://rs-vjezbe-sy06.onrender.com";
+const API_URL = "https://rs-vjezbe-1-backend-lz08.onrender.com";
 
 // Zaštita od ubacivanja HTML-a u tekst koji stiže s API-ja
 function esc(value) {
